@@ -1,0 +1,47 @@
+name: Dispatch
+
+on: 
+  workflow_dispatch:
+    inputs:
+      fileKey:
+        description: Figma File Key
+        type: string
+        required: true
+      pageNames:
+        description: Stringified array of pageNames
+        type: string
+        default: '[]'
+        required: true
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+
+      - name: Figma Export PDFs 🦾
+        id: export
+        uses: ./
+        with:
+          accessToken: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+          fileKey: ${{ github.event.inputs.fileKey }}
+          pageNames: ${{ github.event.inputs.pageNames }}
+
+      - name: Log ℹ️
+        run: |
+          echo "$PDFS"
+          echo "$OUT_DIR"
+        env:
+          PDFS: ${{ steps.export.outputs.pdfs }}
+          OUT_DIR: ${{ steps.export.outputs.outDir }}
+
+      - name: Upload 📂
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ${{ steps.export.outputs.outDir }}
+          server-dir: ./pdf-test/

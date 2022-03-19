@@ -1,0 +1,27 @@
+name: Figma Export PDFs
+description: Figma Export PDFs
+
+inputs:
+  accessToken:
+    description: Figma Access Token.
+    required: true
+  fileKey:
+    description: Figma File Key.
+    required: true
+  pageNames:
+    description: Stringified array of pageNames.
+    required: true
+
+outputs:
+  pdfs:
+    description: Generated PDFs.
+  outDir:
+    description: Specify an output folder for all emitted files.
+
+runs:
+  using: docker
+  image: Dockerfile
+
+branding:
+  icon: key
+  color: gray-dark

@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "name": "figma-export-pdfs-action",
+  "version": "1.0.0",
+  "description": "Figma Export PDFs",
+  "main": "src/index.ts",
+  "scripts": {
+    "debug": "eval $(grep -v -e '^#' .env | xargs -I {} echo env \\'{}\\') node -r tsm src/index.ts",
+    "test": "uvu -r tsm src .test.ts",
+    "export": "node -r tsm src/index.ts"
+  },
+  "keywords": [],
+  "author": "Marco Montalbano <me@marcomontalbano.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "figma-api": "^1.9.2",
+    "node-fetch": "^2.6.7",
+    "pdf-merger-js": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "^2.6.1",
+    "tsm": "^2.2.1",
+    "typescript": "^4.6.2",
+    "uvu": "^0.5.3"
+  }
+}
