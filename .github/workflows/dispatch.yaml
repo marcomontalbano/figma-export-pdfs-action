@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Figma Export PDFs 🦾
-        id: export
+        id: figmaExportPdfs
         uses: ./
         with:
           accessToken: ${{ secrets.FIGMA_ACCESS_TOKEN }}
@@ -31,11 +31,9 @@ jobs:
 
       - name: Log ℹ️
         run: |
-          echo "$PDFS"
-          echo "$OUT_DIR"
+          echo "$outDir"
         env:
-          PDFS: ${{ steps.export.outputs.pdfs }}
-          OUT_DIR: ${{ steps.export.outputs.outDir }}
+          outDir: ${{ steps.figmaExportPdfs.outputs.outDir }}
 
       - name: Upload 📂
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
@@ -43,5 +41,5 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ${{ steps.export.outputs.outDir }}
+          local-dir: ${{ steps.figmaExportPdfs.outputs.outDir }}
           server-dir: ./pdf-test/

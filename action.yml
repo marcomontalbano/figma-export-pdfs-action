@@ -3,20 +3,18 @@ description: Figma Export PDFs
 
 inputs:
   accessToken:
-    description: Figma Access Token.
+    description: Figma Access Token
     required: true
   fileKey:
-    description: Figma File Key.
+    description: Figma File Key
     required: true
   pageNames:
-    description: Stringified array of pageNames.
+    description: List of pages to export. Default to `all`
     required: true
 
 outputs:
-  pdfs:
-    description: Generated PDFs.
   outDir:
-    description: Specify an output folder for all emitted files.
+    description: Output directory for all emitted pdf files
 
 runs:
   using: docker
