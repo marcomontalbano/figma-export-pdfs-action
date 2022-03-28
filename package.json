@@ -5,7 +5,7 @@
   "description": "Figma Export PDFs",
   "main": "src/index.ts",
   "scripts": {
-    "debug": "eval $(grep -v -e '^#' .env | xargs -I {} echo env \\'{}\\') node -r tsm src/index.ts",
+    "debug": "env $(awk 'NF > 0 && !/^#/ { print $0 }' .env | xargs) node -r tsm src/index.ts",
     "test": "uvu -r tsm src .test.ts",
     "export": "node -r tsm src/index.ts"
   },
