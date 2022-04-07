@@ -1,14 +1,19 @@
-name: Dispatch
+name: From Figma
 
 on:
   workflow_dispatch:
     inputs:
       fileKey:
-        description: Figma File key
+        description: Figma file key
         type: string
         required: true
-      ids:
-        description: Stringified array of ids to export
+      page:
+        description: Stringified selected page (id, name)
+        type: string
+        default: '{}'
+        required: true
+      selection:
+        description: Stringified array of the selected nodes (id, name)
         type: string
         default: '[]'
         required: true
@@ -21,13 +26,21 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
 
+      - name: Transform Inputs 🧬
+        id: transformInputs
+        uses: ./.github/actions/transform-inputs
+        with:
+          fileKey: ${{ github.event.inputs.fileKey }}
+          page: ${{ github.event.inputs.page }}
+          selection: ${{ github.event.inputs.selection }}
+
       - name: Figma Export PDFs 🦾
         id: figmaExportPdfs
         uses: ./
         with:
           accessToken: ${{ secrets.FIGMA_ACCESS_TOKEN }}
-          fileKey: ${{ github.event.inputs.fileKey }}
-          ids: ${{ github.event.inputs.ids }}
+          fileKey: ${{ steps.transformInputs.outputs.fileKey }}
+          ids: ${{ steps.transformInputs.outputs.ids }}
 
       - name: Log ℹ️
         run: |
