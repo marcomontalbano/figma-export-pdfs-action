@@ -9,16 +9,16 @@ import { getPdfs, Pdf } from './pdf'
 type Options = {
   accessToken: string
   fileKey: string
-  pageNames: string[]
+  ids: string[]
   outDir: string
 }
 
-export async function run({ accessToken, fileKey, pageNames, outDir }: Options): Promise<Pdf[]> {
+export async function run({ accessToken, fileKey, ids, outDir }: Options): Promise<Pdf[]> {
 
   const pdfs = await getPdfs({
     accessToken,
     fileKey,
-    pageNames
+    ids,
   })
 
   for (const pdf of pdfs) {

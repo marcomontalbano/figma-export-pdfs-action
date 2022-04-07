@@ -5,7 +5,11 @@
   "description": "Figma Export PDFs",
   "main": "src/index.ts",
   "scripts": {
+    "ts:check": "tsc --noEmit",
+    "clean": "rimraf dist",
+    "predebug": "run-s ts:check clean",
     "debug": "env $(awk 'NF > 0 && !/^#/ { print $0 }' .env | xargs) node -r tsm src/index.ts",
+    "pretest": "run-s ts:check",
     "test": "uvu -r tsm src .test.ts",
     "export": "node -r tsm src/index.ts"
   },
@@ -20,6 +24,8 @@
   },
   "devDependencies": {
     "@types/node-fetch": "^2.6.1",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
     "tsm": "^2.2.1",
     "typescript": "^4.6.2",
     "uvu": "^0.5.3"

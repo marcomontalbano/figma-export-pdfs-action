@@ -7,12 +7,6 @@ const keepOnlyChildren = (node: Node<keyof NodeTypes>, type: NodeType) => ({
     .reverse() : []
 })
 
-export function getFrames(canvases: Node<keyof NodeTypes>[] = []) {
-  return canvases
-    .map(node => keepOnlyChildren(node, 'FRAME'))
-    .map(canvas => canvas.children).flat()
-}
-
 export function getGroups(canvases: Node<keyof NodeTypes>[] = []) {
   return canvases
     .map(node => keepOnlyChildren(node, 'GROUP'))

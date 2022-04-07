@@ -7,21 +7,21 @@ export type Pdf = {
   pages: string[]
 }
 
-export const getPdfs = async ({ accessToken, fileKey, pageNames = [] }: { accessToken: string, fileKey: string, pageNames: string[] }): Promise<Pdf[]> => {
+type Props = {
+  accessToken: string
+  fileKey: string
+  ids: string[]
+}
+
+export const getPdfs = async ({ accessToken, fileKey, ids = [] }: Props): Promise<Pdf[]> => {
 
   const api = new Api({
     personalAccessToken: accessToken
   })
 
-  const { document: { children: pages } } = await api.getFile(fileKey)
+  const { document: { children: pages } } = await api.getFile(fileKey, { ids })
 
-  const selectedPages = (page: Node<keyof NodeTypes>) => {
-    return pageNames.length > 0 ? pageNames.includes(page.name) : true
-  }
-
-  const filteredPages = pages.filter(selectedPages)
-
-  const groups = getGroups(filteredPages)
+  const groups = getGroups(pages)
 
   return await Promise.all(
     groups.map(

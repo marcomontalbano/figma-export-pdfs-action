@@ -8,11 +8,13 @@ inputs:
   fileKey:
     description: Figma File Key
     required: true
-  pageNames:
-    description: List of pages to export. Default to `all`
+  ids:
+    description: List of ids to export. Default to `all`
     required: true
 
 outputs:
+  pdfs:
+    description: List of exported pdfs
   outDir:
     description: Output directory for all emitted pdf files
 

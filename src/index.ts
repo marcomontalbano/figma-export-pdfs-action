@@ -20,17 +20,17 @@ const jsonParse = <T>(text: string): T | false => {
 
 const accessToken = core.getInput('accessToken', { required: true })
 const fileKey = core.getInput('fileKey', { required: true })
-const pageNames = jsonParse<string[]>(core.getInput('pageNames', { required: false }) || '[]')
+const ids = jsonParse<string[]>(core.getInput('ids', { required: false }) || '[]')
 
 ;(async function() {
 
-  if (pageNames === false) {
-    core.setFailed('"pageNames" must be a stringified array of strings.')
+  if (ids === false) {
+    core.setFailed('"ids" must be a stringified array of strings.')
     return;
   }
 
   core.startGroup('Export pdfs')
-  const pdfs = await run({ accessToken, fileKey, pageNames, outDir })
+  const pdfs = await run({ accessToken, fileKey, ids, outDir })
   core.endGroup()
 
   core.setOutput('pdfs', pdfs);
