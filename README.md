@@ -29,7 +29,7 @@ You can take a look at [this example](https://www.figma.com/file/rAJHsSg4SC5NqFI
 ```yml
 - name: Figma Export PDFs
   id: figmaExportPdfs
-  uses: marcomontalbano/figma-export-pdfs-action@1.0.0
+  uses: marcomontalbano/figma-export-pdfs-action@v1.0.0
   with:
     accessToken: ${{ secrets.FIGMA_ACCESS_TOKEN }}
     fileKey: rAJHsSg4SC5NqFIFib5NWz
