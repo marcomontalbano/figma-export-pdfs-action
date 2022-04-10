@@ -7,6 +7,7 @@ import { getGroups } from './figma'
 const canvas = (id = '', name = '', children = []) => ({ id, name, type: 'CANVAS', children: [...children] }) as Node<'CANVAS'>
 const group = (id = '', name = '', children = []) => ({ id, name, type: 'GROUP', children: [...children] }) as Node<'GROUP'>
 const frame = (id = '', name = '', children = []) => ({ id, name, type: 'FRAME', children: [...children] }) as Node<'FRAME'>
+const text = (id = '', name = '') => ({ id, name, type: 'TEXT'}) as Node<'TEXT'>
 
 const realCanvas = canvas('1:1', 'Page 1', [
   group('2:1', 'Group 1', [
@@ -23,6 +24,9 @@ const realCanvas = canvas('1:1', 'Page 1', [
     frame('23:4', 'Frame 2b', []),
   ]),
   frame('2:4', 'Frame 2', []),
+  group('2:5', 'Group 3', [
+    text('25:1', 'Text 1a'),
+  ]),
 ])
 
 test('Figma is able to retrieve groups from a list of pages (layers are reversed)', () => {

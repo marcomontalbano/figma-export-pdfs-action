@@ -13,13 +13,22 @@ type Options = {
   outDir: string
 }
 
-export async function run({ accessToken, fileKey, ids, outDir }: Options): Promise<Pdf[]> {
+type Result = {
+  id: string
+  name: string
+  basename: string
+  filepath: string
+}
+
+export async function run({ accessToken, fileKey, ids, outDir }: Options): Promise<Result[]> {
 
   const pdfs = await getPdfs({
     accessToken,
     fileKey,
     ids,
   })
+
+  const result: Result[] = []
 
   for (const pdf of pdfs) {
     const pdfMerger = new PDFMerger();
@@ -32,12 +41,24 @@ export async function run({ accessToken, fileKey, ids, outDir }: Options): Promi
 
     pages.forEach(page => pdfMerger.add(page))
 
-    mkdirSync(outDir, { recursive: true })
-
     const filename = `${pdf.name}.pdf`
-    core.info(filename)
+    const filepath = path.resolve(outDir, filename)
+    const dirname = path.dirname(pdf.name)
+    const basename = path.basename(filename)
+
+    mkdirSync(path.dirname(filepath), { recursive: true })
+
+    core.info(basename)
+
     await pdfMerger.save(path.resolve(outDir, filename))
+
+    result.push({
+      id: pdf.id,
+      name: path.basename(pdf.name),
+      basename,
+      filepath: `./${ path.relative('.', filepath) }`
+    })
   }
 
-  return pdfs
+  return result
 }

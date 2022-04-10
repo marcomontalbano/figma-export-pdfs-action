@@ -12,4 +12,5 @@ export function getGroups(canvases: Node<keyof NodeTypes>[] = []) {
     .map(node => keepOnlyChildren(node, 'GROUP'))
     .map(canvas => canvas.children).flat()
     .map(node => keepOnlyChildren(node, 'FRAME'))
+    .filter(node => node.children.length > 0)
 }
