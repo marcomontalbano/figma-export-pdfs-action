@@ -23,5 +23,5 @@ runs:
   image: Dockerfile
 
 branding:
-  icon: key
-  color: gray-dark
+  icon: file-text
+  color: red
