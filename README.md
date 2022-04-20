@@ -21,7 +21,7 @@ page
 ```
 
 A pdf page have to be a `figma frame`, and pages have to be grouped with a `figma group`.
-You can take a look at [this example](https://www.figma.com/file/rAJHsSg4SC5NqFIFib5NWz/?node-id=305%3A786).
+You can take a look at [this example](https://www.figma.com/file/VQxKo2pnaksjE7Vql999Qv/figma-export-pdfs-action?node-id=138%3A28).
 
 
 ## Usage
