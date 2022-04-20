@@ -2,5 +2,8 @@
   "private": true,
   "dependencies": {
     "@actions/core": "^1.6.0"
+  },
+  "scripts": {
+    "test": "env $(awk 'NF > 0 && !/^#/ { print $0 }' .env.test | xargs) node main.test.js"
   }
 }

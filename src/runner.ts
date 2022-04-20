@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
 import { mkdirSync } from 'fs'
 import fetch from 'node-fetch'
-import path from 'path'
+import path, { sep } from 'path'
 import PDFMerger from 'pdf-merger-js'
 
 import { getPdfs, Pdf } from './pdf'
@@ -43,7 +43,6 @@ export async function run({ accessToken, fileKey, ids, outDir }: Options): Promi
 
     const filename = `${pdf.name}.pdf`
     const filepath = path.resolve(outDir, filename)
-    const dirname = path.dirname(pdf.name)
     const basename = path.basename(filename)
 
     mkdirSync(path.dirname(filepath), { recursive: true })
@@ -56,7 +55,7 @@ export async function run({ accessToken, fileKey, ids, outDir }: Options): Promi
       id: pdf.id,
       name: path.basename(pdf.name),
       basename,
-      filepath: `./${ path.relative('.', filepath) }`
+      filepath: `.${sep}${path.join(path.basename(outDir), filename)}`
     })
   }
 
