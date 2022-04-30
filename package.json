@@ -1,7 +1,6 @@
 {
   "private": true,
   "name": "figma-export-pdfs-action",
-  "version": "1.0.0",
   "description": "Figma Export PDFs",
   "main": "src/index.ts",
   "scripts": {
