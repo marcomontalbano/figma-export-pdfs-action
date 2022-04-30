@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import { mkdirSync } from 'fs'
+import { mkdirSync, writeFileSync } from 'fs'
 import fetch from 'node-fetch'
 import path, { sep } from 'path'
 import PDFMerger from 'pdf-merger-js'
@@ -18,6 +18,7 @@ type Result = {
   name: string
   basename: string
   filepath: string
+  cover: string
 }
 
 export async function run({ accessToken, fileKey, ids, outDir }: Options): Promise<Result[]> {
@@ -39,23 +40,29 @@ export async function run({ accessToken, fileKey, ids, outDir }: Options): Promi
       )
     )
 
+    const cover = Buffer.from(await fetch(pdf.cover).then(r => r.arrayBuffer()))
+
     pages.forEach(page => pdfMerger.add(page))
 
-    const filename = `${pdf.name}.pdf`
-    const filepath = path.resolve(outDir, filename)
-    const basename = path.basename(filename)
 
-    mkdirSync(path.dirname(filepath), { recursive: true })
+    const coverFilename = `${pdf.name}.jpg`
+    const pdfFilename = `${pdf.name}.pdf`
+    const pdfFilepath = path.resolve(outDir, pdfFilename)
+    const pdfBasename = path.basename(pdfFilename)
 
-    core.info(basename)
+    mkdirSync(path.dirname(pdfFilepath), { recursive: true })
 
-    await pdfMerger.save(path.resolve(outDir, filename))
+    core.info(pdfBasename)
+
+    await pdfMerger.save(path.resolve(outDir, pdfFilename))
+    writeFileSync(path.resolve(outDir, coverFilename), cover)
 
     result.push({
       id: pdf.id,
       name: path.basename(pdf.name),
-      basename,
-      filepath: `.${sep}${path.join(path.basename(outDir), filename)}`
+      basename: pdfBasename,
+      filepath: `.${sep}${path.join(path.basename(outDir), pdfFilename)}`,
+      cover: `.${sep}${path.join(path.basename(outDir), coverFilename)}`,
     })
   }
 

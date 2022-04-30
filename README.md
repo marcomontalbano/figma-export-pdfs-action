@@ -69,7 +69,8 @@ Checkout a working example [`dispatch.yaml`](.github/workflows/dispatch.yaml) an
 >     "id": "6:786",
 >     "name": "figma-export-cover",
 >     "basename": "figma-export-cover.pdf",
->     "filepath": "./dist/figma-export-cover.pdf"
+>     "filepath": "./dist/figma-export-cover.pdf",
+>     "cover": "./dist/figma-export-cover.jpg"
 >   }
 > ]
 > ```

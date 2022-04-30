@@ -4,13 +4,18 @@ import { getGroups } from './figma'
 export type Pdf = {
   id: string
   name: string
-  pages: string[]
+  pages: string[],
+  cover: string
 }
 
 type Props = {
   accessToken: string
   fileKey: string
   ids: string[]
+}
+
+const pagesAreOk = (pages: (string | null)[]): pages is string[] => {
+  return pages.find(page => typeof page !== 'string') === undefined
 }
 
 export const getPdfs = async ({ accessToken, fileKey, ids = [] }: Props): Promise<Pdf[]> => {
@@ -26,35 +31,45 @@ export const getPdfs = async ({ accessToken, fileKey, ids = [] }: Props): Promis
   return await Promise.all(
     groups.map(
       async group => {
-        const pages = await Promise.all(
-          group.children.map(
-            async frame => {
-              const image = await api.getImage(fileKey, {
-                ids: frame.id,
-                format: 'pdf',
-                scale: 1
-              })
+        const frameIds = group.children.map(frame => frame.id)
 
-              if (image.err) {
-                // return null
-                throw new Error(image.err)
-              }
+        const pdfResponse = await api.getImage(fileKey, {
+          ids: frameIds.join(','),
+          format: 'pdf',
+          scale: 1
+        })
 
-              const svgUrl = image.images[frame.id]
+        if (pdfResponse.err) {
+          throw new Error(pdfResponse.err)
+        }
 
-              if (!svgUrl) {
-                throw new Error('"svgUrl" is empty!')
-              }
+        const pages = Object.values(pdfResponse.images)
 
-              return svgUrl
-            }
-          )
-        )
+        if (!pagesAreOk(pages)) {
+          throw new Error('Found empty pages!')
+        }
+
+        const coverResponse = await api.getImage(fileKey, {
+          ids: frameIds[0],
+          format: 'jpg',
+          scale: 1
+        })
+
+        if (coverResponse.err) {
+          throw new Error(coverResponse.err)
+        }
+
+        const [ cover ] = Object.values(coverResponse.images)
+
+        if (!cover) {
+          throw new Error('Cannot create cover!')
+        }
 
         return {
           id: group.id,
           name: group.name,
-          pages
+          pages,
+          cover
         }
       }
     )
