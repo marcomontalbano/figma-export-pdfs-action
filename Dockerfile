@@ -4,10 +4,12 @@
 
 FROM node:18-alpine
 
+WORKDIR /figma-export-pdfs-action
+
 COPY package.json .
 COPY package-lock.json .
 RUN npm ci
 
 COPY . .
 
-ENTRYPOINT ["npm", "run", "export", "/github/workspace/dist/"]
+ENTRYPOINT ["npm", "--prefix", "/figma-export-pdfs-action", "run", "export", "/github/workspace/dist/"]
