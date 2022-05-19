@@ -10,4 +10,4 @@ RUN npm ci
 
 COPY . .
 
-ENTRYPOINT ["node", "-r", "tsm", "src/index.ts", "/github/workspace/dist/"]
+ENTRYPOINT ["npm", "run", "export", "/github/workspace/dist/"]
