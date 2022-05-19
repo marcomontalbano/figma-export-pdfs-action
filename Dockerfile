@@ -12,4 +12,5 @@ RUN npm ci
 
 COPY . .
 
-ENTRYPOINT ["npm", "--prefix", "/figma-export-pdfs-action", "run", "export", "/github/workspace/dist/"]
+RUN ["chmod", "+x", "/figma-export-pdfs-action/entrypoint.sh"]
+ENTRYPOINT ["/figma-export-pdfs-action/entrypoint.sh"]
