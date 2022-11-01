@@ -42,8 +42,9 @@ export async function run({ accessToken, fileKey, ids, outDir }: Options): Promi
 
     const cover = Buffer.from(await fetch(pdf.cover).then(r => r.arrayBuffer()))
 
-    pages.forEach(page => pdfMerger.add(page))
-
+    for (const page of pages) {
+      await pdfMerger.add(page)
+    }
 
     const coverFilename = `${pdf.name}.jpg`
     const pdfFilename = `${pdf.name}.pdf`
