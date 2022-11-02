@@ -32,8 +32,8 @@ You can take a look at [this example](https://www.figma.com/file/VQxKo2pnaksjE7V
   uses: marcomontalbano/figma-export-pdfs-action@v1.2.2
   with:
     accessToken: ${{ secrets.FIGMA_ACCESS_TOKEN }}
-    fileKey: rAJHsSg4SC5NqFIFib5NWz
-    ids: ["17:786","6:786"]
+    fileKey: VQxKo2pnaksjE7Vql999Qv
+    ids: ["120:3","138:28"]
 
 - name: Log
   echo "pdfs: $pdfs"
@@ -43,7 +43,7 @@ You can take a look at [this example](https://www.figma.com/file/VQxKo2pnaksjE7V
     outDir: ${{ steps.figmaExportPdfs.outputs.outDir }}
 ```
 
-Checkout a working example [`dispatch.yaml`](.github/workflows/dispatch.yaml) and [`from-figma.yaml`](.github/workflows/from-figma.yaml)
+Checkout a working example [`dispatch.yaml`](.github/workflows/dispatch.yaml).
 
 ### Inputs
 
@@ -74,3 +74,12 @@ Checkout a working example [`dispatch.yaml`](.github/workflows/dispatch.yaml) an
 >   }
 > ]
 > ```
+
+
+## Export PDFs directly from Figma
+
+What do you think about exporting Figma content as PDF to an FTP Server, just clicking a button from Figma? Would it be cool, isn't it?
+
+Take a look at this [workflow](.github/workflows/from-figma.yaml) and find out how this is totally feasible. Just clone the workflow and setup [this Figma plugin](https://github.com/marcomontalbano/figma-plugin-run-github-actions-workflows) 😉
+
+![Demo](https://raw.githubusercontent.com/marcomontalbano/figma-plugin-run-github-actions-workflows/main/cover.gif)
