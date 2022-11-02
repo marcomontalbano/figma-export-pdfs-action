@@ -38,7 +38,13 @@ jobs:
           pdfs: ${{ steps.figmaExportPdfs.outputs.pdfs }}
           outDir: ${{ steps.figmaExportPdfs.outputs.outDir }}
 
-      - name: Upload 📂
+      - name: Upload artifact 📂
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-pdf
+          path: ${{ steps.figmaExportPdfs.outputs.outDir }}
+
+      - name: FTP Upload 📂
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
           server: ${{ secrets.FTP_SERVER }}
