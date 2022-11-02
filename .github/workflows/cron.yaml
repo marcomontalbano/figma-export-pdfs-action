@@ -1,17 +1,9 @@
-name: Dispatch
+name: Cron
 
 on:
   workflow_dispatch:
-    inputs:
-      fileKey:
-        description: Figma File key
-        type: string
-        required: true
-      ids:
-        description: Stringified array of ids to export
-        type: string
-        default: '[]'
-        required: true
+  schedule:
+    - cron:  '0 0 * * *'
 
 jobs:
   export:
@@ -26,8 +18,8 @@ jobs:
         uses: ./
         with:
           accessToken: ${{ secrets.FIGMA_ACCESS_TOKEN }}
-          fileKey: ${{ github.event.inputs.fileKey }}
-          ids: ${{ github.event.inputs.ids }}
+          fileKey: 'VQxKo2pnaksjE7Vql999Qv'
+          ids: '["120:3","138:28"]'
 
       - name: Log ℹ️
         run: |
@@ -43,12 +35,3 @@ jobs:
         with:
           name: my-pdfs
           path: ${{ steps.figmaExportPdfs.outputs.outDir }}
-
-      - name: FTP Upload 📂
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ${{ steps.figmaExportPdfs.outputs.outDir }}
-          server-dir: ./pdf-test/
