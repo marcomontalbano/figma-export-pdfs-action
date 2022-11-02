@@ -76,6 +76,17 @@ Checkout a working example [`dispatch.yaml`](.github/workflows/dispatch.yaml).
 > ```
 
 
+## Live Example
+
+I created a `cron.yaml` workflow that runs scheduled.
+
+This workflow will export the page "cover" and the page "unit-test" from [this Figma file](https://www.figma.com/file/VQxKo2pnaksjE7Vql999Qv).
+
+You can check the latest run from [this page](https://github.com/marcomontalbano/figma-export-pdfs-action/actions/workflows/cron.yaml) and look at the logs.
+An artifact called `my-pdfs` is also available for logged user so that you can check what's the final result.
+
+
+
 ## Export PDFs directly from Figma
 
 What do you think about exporting Figma content as PDF to an FTP Server, just clicking a button from Figma? Would it be cool, isn't it?
