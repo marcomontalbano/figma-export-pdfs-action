@@ -8,7 +8,7 @@ Then you can save the pdf as workflow artifact, upload it to an ftp server, or d
 In order to export a pdf from a Figma file, it have to be structured in a specific way.
 
 ```sh
-page
+Figma page
 |
 ├── group # this is a pdf
 │   ├── frame # page 1

@@ -1,4 +1,5 @@
 import * as core from '@actions/core'
+import { mkdirSync } from 'fs'
 import path from 'path'
 
 import { run } from './runner'
@@ -32,6 +33,12 @@ const ids = jsonParse<string[]>(core.getInput('ids', { required: false }) || '[]
   core.startGroup('Export pdfs')
   const pdfs = await run({ accessToken, fileKey, ids, outDir })
   core.endGroup()
+
+  mkdirSync(path.resolve(outDir), { recursive: true })
+
+  if (pdfs.length === 0) {
+    core.warning('No PDFs has been exported.')
+  }
 
   core.setOutput('pdfs', pdfs);
   core.setOutput('outDir', `./${distFolder}/`)
