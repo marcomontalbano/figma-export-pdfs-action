@@ -1,13 +1,13 @@
-import { Node, NodeType, NodeTypes } from 'figma-api'
+import type { Node } from '@figma/rest-api-spec'
 
-const keepOnlyChildren = (node: Node<keyof NodeTypes>, type: NodeType) => ({
+const keepOnlyChildren = (node: Node, type: Node['type']) => ({
   ...node,
   children: 'children' in node ? node.children
     .filter(child => child.type === type)
     .reverse() : []
 })
 
-export function getGroups(canvases: Node<keyof NodeTypes>[] = []) {
+export function getGroups(canvases: Node[] = []) {
   return canvases
     .map(node => keepOnlyChildren(node, 'GROUP'))
     .map(canvas => canvas.children).flat()

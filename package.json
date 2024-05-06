@@ -11,28 +11,27 @@
     "pretest": "run-s ts:check",
     "test": "uvu -r tsm src .test.ts",
     "export": "node -r tsm src/index.ts",
-    "dep:upgrade:major": "npx npm-check-updates -u",
-    "dep:upgrade:minor": "npm run dep:upgrade:major -- --target minor"
+    "dep:major": "npx npm-check-updates --packageFile '**/package.json' -u",
+    "dep:minor": "npm run dep:major -- -t minor"
 
   },
   "keywords": [],
   "author": "Marco Montalbano <me@marcomontalbano.com>",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.10.0",
-    "figma-api": "^1.11.0",
-    "node-fetch": "^3.2.10",
-    "pdf-merger-js": "^4.1.2"
+    "@actions/core": "^1.10.1",
+    "@figma/rest-api-spec": "^0.13.0",
+    "@types/node": "^20.12.10",
+    "pdf-merger-js": "^5.1.1"
   },
   "devDependencies": {
-    "@types/node-fetch": "^2.6.2",
     "npm-run-all": "^4.1.5",
-    "rimraf": "^3.0.2",
-    "tsm": "^2.2.2",
-    "typescript": "^4.8.4",
+    "rimraf": "^5.0.5",
+    "tsm": "^2.3.0",
+    "typescript": "^5.4.5",
     "uvu": "^0.5.6"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   }
 }

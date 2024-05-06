@@ -1,8 +1,8 @@
-# FROM node:18-alpine
+# FROM node:20-alpine
 
 # ENTRYPOINT ["/github/workspace/entrypoint.sh"]
 
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /figma-export-pdfs-action
 

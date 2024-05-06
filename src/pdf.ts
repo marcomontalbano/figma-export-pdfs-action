@@ -1,4 +1,4 @@
-import { Api, Node, NodeTypes } from 'figma-api'
+import { GetFileResponse, GetImagesResponse } from '@figma/rest-api-spec'
 import { getGroups } from './figma'
 
 export type Pdf = {
@@ -20,11 +20,12 @@ const pagesAreOk = (pages: (string | null)[]): pages is string[] => {
 
 export const getPdfs = async ({ accessToken, fileKey, ids = [] }: Props): Promise<Pdf[]> => {
 
-  const api = new Api({
-    personalAccessToken: accessToken
+  const { document: { children: pages } } = await fetch(`https://api.figma.com/v1/files/${fileKey}?ids=${ids.join(',')}`, {
+    headers: {
+      'X-FIGMA-TOKEN': accessToken
+    }
   })
-
-  const { document: { children: pages } } = await api.getFile(fileKey, { ids })
+    .then((res) => res.json() as Promise<GetFileResponse>)
 
   const groups = getGroups(pages)
 
@@ -33,11 +34,12 @@ export const getPdfs = async ({ accessToken, fileKey, ids = [] }: Props): Promis
       async group => {
         const frameIds = group.children.map(frame => frame.id)
 
-        const pdfResponse = await api.getImage(fileKey, {
-          ids: frameIds.join(','),
-          format: 'pdf',
-          scale: 1
+        const pdfResponse = await fetch(`https://api.figma.com/v1/images/${fileKey}?ids=${frameIds.join(',')}&format=pdf&scale=1`, {
+          headers: {
+            'X-FIGMA-TOKEN': accessToken
+          }
         })
+          .then((r) => r.json() as Promise<GetImagesResponse>)
 
         if (pdfResponse.err) {
           throw new Error(pdfResponse.err)
@@ -49,11 +51,12 @@ export const getPdfs = async ({ accessToken, fileKey, ids = [] }: Props): Promis
           throw new Error('Found empty pages!')
         }
 
-        const coverResponse = await api.getImage(fileKey, {
-          ids: frameIds[0],
-          format: 'jpg',
-          scale: 1
+        const coverResponse = await fetch(`https://api.figma.com/v1/images/${fileKey}?ids=${frameIds[0]}&format=jpg&scale=1`, {
+          headers: {
+            'X-FIGMA-TOKEN': accessToken
+          }
         })
+          .then((r) => r.json() as Promise<GetImagesResponse>)
 
         if (coverResponse.err) {
           throw new Error(coverResponse.err)

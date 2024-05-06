@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Transform Inputs 🧬
         id: transformInputs
@@ -52,7 +52,7 @@ jobs:
           outDir: ${{ steps.figmaExportPdfs.outputs.outDir }}
 
       - name: Upload 📂
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}

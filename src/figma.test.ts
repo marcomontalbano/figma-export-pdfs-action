@@ -1,13 +1,13 @@
-import { Node } from 'figma-api'
+import type { CanvasNode, SubcanvasNode, GroupNode, FrameNode, TextNode } from '@figma/rest-api-spec'
 import { test } from 'uvu'
 import assert from 'uvu/assert'
 
 import { getGroups } from './figma'
 
-const canvas = (id = '', name = '', children = []) => ({ id, name, type: 'CANVAS', children: [...children] }) as Node<'CANVAS'>
-const group = (id = '', name = '', children = []) => ({ id, name, type: 'GROUP', children: [...children] }) as Node<'GROUP'>
-const frame = (id = '', name = '', children = []) => ({ id, name, type: 'FRAME', children: [...children] }) as Node<'FRAME'>
-const text = (id = '', name = '') => ({ id, name, type: 'TEXT'}) as Node<'TEXT'>
+const canvas = (id = '', name = '', children: SubcanvasNode[] = []) => ({ id, name, type: 'CANVAS', children: [...children] }) as CanvasNode
+const group = (id = '', name = '', children: SubcanvasNode[] = []) => ({ id, name, type: 'GROUP', children: [...children] }) as GroupNode
+const frame = (id = '', name = '', children: SubcanvasNode[] = []) => ({ id, name, type: 'FRAME', children: [...children] }) as FrameNode
+const text = (id = '', name = '') => ({ id, name, type: 'TEXT' }) as TextNode
 
 const realCanvas = canvas('1:1', 'Page 1', [
   group('2:1', 'Group 1', [

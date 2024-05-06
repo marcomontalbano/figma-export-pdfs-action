@@ -1,10 +1,9 @@
 import * as core from '@actions/core'
 import { mkdirSync, writeFileSync } from 'fs'
-import fetch from 'node-fetch'
 import path, { sep } from 'path'
 import PDFMerger from 'pdf-merger-js'
 
-import { getPdfs, Pdf } from './pdf'
+import { getPdfs } from './pdf'
 
 type Options = {
   accessToken: string
