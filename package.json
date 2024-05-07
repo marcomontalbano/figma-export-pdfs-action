@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "figma-export-pdfs-action",
-  "description": "Figma Export PDFs",
+  "description": "Export content from a Figma file as a PDF document",
   "main": "src/index.ts",
   "scripts": {
     "ts:check": "tsc --noEmit",

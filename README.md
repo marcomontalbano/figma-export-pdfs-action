@@ -1,32 +1,48 @@
 # Figma Export PDFs action
 
-This action is able to export content from a Figma file as PDF.
-Then you can save the pdf as workflow artifact, upload it to an ftp server, or do whatever you want.
+This action can export content from a Figma file as a PDF document. Afterward, you can save the PDF as a workflow artifact, upload it to an FTP server, or store it wherever you prefer.
 
 ## Figma file structure
 
-In order to export a pdf from a Figma file, it have to be structured in a specific way.
+Your Figma file must follow a conventional structure:
 
-```sh
-Figma page
-|
-├── group # this is a pdf
-│   ├── frame # page 1
-│   ├── frame # page 2
-│   └── frame # page 3
-|
-└── group # this is another pdf
-    ├── frame # page 1
-    └── frame # page 2
+```yaml
+Figma file
+│
+├── page
+│   │
+│   ├── group # this is a PDF document
+│   │   ├── frame # page 1
+│   │   ├── frame # page 2
+│   │   ├── frame # page 3
+│   │   └── frame # page 4
+│   │
+│   └── group # this is a PDF document
+│       ├── frame # page 1
+│       └── frame # page 2
+│
+└── page
+    │
+    └── group # this is a PDF document
+        ├── frame # page 1
+        ├── frame # page 2
+        └── frame # page 3
 ```
 
-A pdf page have to be a `figma frame`, and pages have to be grouped with a `figma group`.
-You can take a look at [this example](https://www.figma.com/file/VQxKo2pnaksjE7Vql999Qv/figma-export-pdfs-action?node-id=138%3A28).
+Each Figma **group** in the Figma file represents a PDF document, with the group's name defining the filename of the PDF.
 
+Within each Figma group (PDF document), there are one or more Figma **frames**, where each frame represents a page in the PDF document.
+
+For example, given the Figma file below, the resulting PDF will be named “**figma-export-pdfs-action.pdf**” and will contain 3 pages.
+
+![figma.com example showing a well structured Figma file](browser.png)
+
+
+You can refer to [this example](https://www.figma.com/file/VQxKo2pnaksjE7Vql999Qv/figma-export-pdfs-action?node-id=138%3A28) for further clarification.
 
 ## Usage
 
-```yml
+```yaml
 - name: Figma Export PDFs
   id: figmaExportPdfs
   uses: marcomontalbano/figma-export-pdfs-action@v1.2.2
